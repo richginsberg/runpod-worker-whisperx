@@ -6,3 +6,6 @@
 # To learn more, see https://pip.pypa.io/en/stable/reference/requirements-file-format/
 
 runpod==1.6.2
+nvidia-cublas-cu11
+nvidia-cudnn-cu11
+git+https://github.com/m-bain/whisperx.git

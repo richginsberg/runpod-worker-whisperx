@@ -1,0 +1,14 @@
+name: whisperx
+channels:
+  - nvidia
+  - pytorch
+  - defaults
+dependencies:
+  - python=3.11
+  - pytorch==2.1.0
+  - torchaudio==2.1.0
+  - torchvision
+  - pytorch-cuda=11.8
+  - pip:
+    - git+https://github.com/m-bain/whisperx.git
+    - git+https://github.com/runpod/runpod-python.git
