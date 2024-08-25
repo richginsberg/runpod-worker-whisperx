@@ -3,10 +3,19 @@ INPUT_VALIDATIONS = {
         'type': str,
         'required': True
     },
-    'pretty_json': {
-        'type': bool,
+    'compute_type': {
+        'type': str,
         'required': False,
-        'default': False
+        'default': 'float32'
     },
-
+    'batch_size': {
+        'type': int,
+        'required': False,
+        'default': 16
+    },
+    'language': {
+        'type': str,
+        'required': False,
+        'default': 'unknown'
+    }
 }

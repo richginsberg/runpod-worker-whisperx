@@ -6,31 +6,36 @@ import json
 import config
 
 device = "cuda"
-batch_size = 16 # reduce if low on GPU mem
-compute_type = "float32" # change to "int8" if low on GPU mem (may reduce accuracy)
-ALLOWED_EXTENSIONS = {"mp3", "wav", "awb", "aac", "ogg", "oga", "m4a", "wma", "amr"}
+ALLOWED_EXTENSIONS = {"mp3", "mp4", "wav", "awb", "aac", "ogg", "oga", "m4a", "wma", "amr"}
 
 class WhisperX_worker:
 
-    def process(self, audio, pretty_json):
+    def process(self, audio, compute_type, batch_size, language):
         audio_file = str(audio)
         if self.allowed_file(audio_file):            
             print(audio)
-            result = self.transcribe(audio)
+            result = self.transcribe(audio, compute_type, batch_size, language)
 
-            if pretty_json is True:
-                return json.dumps(result, indent=4)
-            else:
-                return json.dumps(result)
+            return json.dumps(result)
 
     @staticmethod
     def allowed_file(filename):
         return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
     
     @staticmethod
-    def transcribe(audio_file):
+    def transcribe(audio_file, compute_type, batch_size, language):
         # Load models
-        model = whisperx.load_model("large-v3", device, compute_type=compute_type)
+        if not isinstance(batch_size, int) or batch_size <= 256:
+            batch_size = 8
+
+        if compute_type.lower() not in ('int8', 'float16', 'float32') :
+            compute_type = 'float32'
+
+        if language.lower() == 'unknown':
+            model = whisperx.load_model("large-v3", device, compute_type=compute_type)
+        else:
+            model = whisperx.load_model("large-v3", device, compute_type=compute_type, language=language)
+
         diarize_model = whisperx.DiarizationPipeline(use_auth_token=config.HF_TOKEN, device=device)
         #global model, diarize_model
         # 1. Transcribe with original whisper (batched)

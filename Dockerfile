@@ -37,5 +37,4 @@ RUN /bin/bash -c "source activate whisperx; whisperx --hf_token $hftoken --model
 ADD src .
 COPY src .
 
-#CMD python3.11 -u /handler.py
 ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "whisperx", "python3.11", "-u", "/handler.py"]

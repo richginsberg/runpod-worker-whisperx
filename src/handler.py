@@ -25,7 +25,9 @@ def handler(job):
     with rp_debugger.LineTimer('process_step'):
         transcription_results = MODEL.process(
             audio=job_input["audio"],
-            pretty_json=job_input["pretty_json"]
+            compute_type=job_input["compute_type"],
+            batch_size=job_input["batch_size"],
+            language=job_input["language"]
         )
 
     with rp_debugger.LineTimer('cleanup_step'):

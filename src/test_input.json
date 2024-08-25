@@ -1,6 +1,8 @@
 {
     "input": {
         "audio": "http://thepodcastexchange.ca/s/Porsche-Macan-July-5-2018-1.mp3",
-        "pretty_json": true
+        "compute_type": "float32",
+        "batch_size": 256,
+        "language": "en"
     }
 }
